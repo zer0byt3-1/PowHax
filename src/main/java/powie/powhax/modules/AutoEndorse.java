@@ -18,7 +18,12 @@ import net.minecraft.network.protocol.game.ServerboundSignUpdatePacket;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.entity.SignBlockEntity;
+import net.minecraft.world.level.block.entity.SignTextSlot;
 import powie.powhax.Powhax;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class AutoEndorse extends Module {
     private final SettingGroup sgGeneral = settings.getDefaultGroup();
@@ -83,7 +88,7 @@ public class AutoEndorse extends Module {
 
     @EventHandler
     private void onOpenScreen(OpenScreenEvent event) {
-        if (!(event.screen instanceof AbstractSignEditScreen)) return;
+        if (!(event.screen instanceof AbstractSignEditScreen) || mc.player == null) return;
 
         Entity target = getTarget(targetRange.get(), targetPriority.get());
         if (target == null) {
@@ -93,31 +98,33 @@ public class AutoEndorse extends Module {
 
         SignBlockEntity sign = ((AbstractSignEditScreenAccessor) event.screen).meteor$getSign();
 
-        String[] lines = composeLines(target.getName().getString());
+        List<String> lines = composeLines(target.getName().getString());
 
         mc.player.connection.send(new ServerboundSignUpdatePacket(
             sign.getBlockPos(),
-            true,
-            lines[0],
-            lines[1],
-            lines[2],
-            lines[3]
+            lines,
+            SignTextSlot.FRONT
         ));
 
         event.cancel();
     }
 
-    private String[] composeLines(String name) {
-        String[] lines = {firstLine.get(), secondLine.get(), thirdLine.get(), ""};
+    private List<String> composeLines(String name) {
+        List<String> lines = new ArrayList<>(Arrays.asList(
+            firstLine.get(),
+            secondLine.get(),
+            thirdLine.get(),
+            ""
+        ));
 
         for (int i = 3; i >= 0; i--) {
             if (i == 0) {
-                lines[i] = "-" + name;
+                lines.set(i, "-" + name);
                 break;
             }
 
-            if (!lines[i - 1].isEmpty()) {
-                lines[i] = "-" + name;
+            if (!lines.get(i - 1).isEmpty()) {
+                lines.set(i, "-" + name);
                 break;
             }
         }

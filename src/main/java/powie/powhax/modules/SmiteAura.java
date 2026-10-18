@@ -20,7 +20,7 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.animal.wolf.Wolf;
-import net.minecraft.world.entity.monster.EnderMan;
+import net.minecraft.world.entity.monster.Enderman;
 import net.minecraft.world.entity.monster.zombie.ZombifiedPiglin;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.ClipContext;
@@ -244,7 +244,7 @@ public class SmiteAura extends Module {
             ) return false;
         }
         if (ignorePassive.get()) {
-            if (entity instanceof EnderMan enderman && !enderman.isAngry()) return false;
+            if (entity instanceof Enderman enderman && !enderman.isCreepy()) return false;
             if (entity instanceof ZombifiedPiglin piglin && !piglin.isAggressive()) return false;
             if (entity instanceof Wolf wolf && !wolf.isAggressive()) return false;
         }

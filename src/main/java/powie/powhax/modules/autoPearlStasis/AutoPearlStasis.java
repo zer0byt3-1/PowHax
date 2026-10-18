@@ -1,6 +1,7 @@
 package powie.powhax.modules.autoPearlStasis;
 
 import com.google.gson.JsonObject;
+import com.mojang.blaze3d.Blaze3D;
 import meteordevelopment.meteorclient.gui.GuiTheme;
 import meteordevelopment.meteorclient.gui.widgets.WWidget;
 import meteordevelopment.meteorclient.gui.widgets.containers.WHorizontalList;
@@ -13,11 +14,11 @@ import meteordevelopment.meteorclient.utils.Utils;
 import meteordevelopment.meteorclient.utils.misc.Keybind;
 import meteordevelopment.orbit.EventHandler;
 import net.minecraft.core.BlockPos;
-import net.minecraft.util.Util;
 import net.minecraft.world.entity.EntityType;
 import powie.powhax.Powhax;
 import powie.powhax.events.AutoPearlStasisUpdateInfoTableEvent;
 
+import java.net.URI;
 import java.util.Set;
 
 import static meteordevelopment.meteorclient.MeteorClient.EVENT_BUS;
@@ -223,7 +224,7 @@ public class AutoPearlStasis extends Module {
         WHorizontalList buttons = l.add(theme.horizontalList()).expandX().padHorizontal(6).widget();
 
         WButton openGuideButton = buttons.add(theme.button("Open Guide")).expandX().widget();
-        openGuideButton.action = () -> Util.getPlatform().openUri("https://github.com/Powie69/PowHax/wiki/Auto-Pearl-Stasis-Guide");
+        openGuideButton.action = () -> Blaze3D.openUri(URI.create("https://github.com/Powie69/PowHax/wiki/Auto-Pearl-Stasis-Guide"));
         WButton testConnectionButton = buttons.add(theme.button("Test Connection")).expandX().widget();
         testConnectionButton.action = this::handleTestConnection;
         return l;

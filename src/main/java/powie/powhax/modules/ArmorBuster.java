@@ -14,14 +14,13 @@ import meteordevelopment.meteorclient.utils.player.PlayerUtils;
 import meteordevelopment.meteorclient.utils.player.Rotations;
 import meteordevelopment.meteorclient.utils.world.TickRate;
 import meteordevelopment.orbit.EventHandler;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EntityTypes;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.AxeItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.GameType;
 import net.minecraft.world.phys.AABB;
@@ -114,12 +113,12 @@ public class ArmorBuster extends Module {
         }
 
         if (axeSwitch.get()) {
-            Predicate<ItemStack> predicate = stack -> stack.getItem() instanceof AxeItem;
+            Predicate<ItemStack> predicate = stack -> stack.is(ItemTags.AXES);
             FindItemResult weaponResult = InvUtils.findInHotbar(predicate);
             if (!weaponResult.found()) return;
             InvUtils.swap(weaponResult.slot(), false);
         }
-        if (!(mc.player.getMainHandItem().getItem() instanceof AxeItem)) return;
+        if (!(mc.player.getMainHandItem().is(ItemTags.AXES))) return;
 
         attacking = true;
         targets.forEach(this::attack);
@@ -153,7 +152,7 @@ public class ArmorBuster extends Module {
         }
 
         mc.gameMode.attack(mc.player, target);
-        mc.player.swing(InteractionHand.MAIN_HAND);
+        mc.player.swing(InteractionHand.MAIN_HAND, mc.player.getMainHandItem().getAttackAnimation(), false);
     }
 
     public Entity getTarget() {

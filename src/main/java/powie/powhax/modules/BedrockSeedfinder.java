@@ -1,5 +1,6 @@
 package powie.powhax.modules;
 
+import com.mojang.blaze3d.Blaze3D;
 import meteordevelopment.meteorclient.events.world.ChunkDataEvent;
 import meteordevelopment.meteorclient.gui.GuiTheme;
 import meteordevelopment.meteorclient.gui.widgets.WWidget;
@@ -19,13 +20,13 @@ import net.minecraft.network.chat.ClickEvent;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.HoverEvent;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.util.Util;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.chunk.ChunkAccess;
 import powie.powhax.Powhax;
 import powie.powhax.utils.Config;
 
 import java.io.*;
+import java.net.URI;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -90,7 +91,7 @@ public class BedrockSeedfinder extends Module {
         l.add(theme.label("This module is meant to be used for Nether Bedrock Cracker"));
         l.add(theme.label("https://github.com/19MisterX98/Nether_Bedrock_Cracker/"));
         WButton button = l.add(theme.button("open github repo")).widget();
-        button.action = () -> Util.getPlatform().openUri("https://github.com/19MisterX98/Nether_Bedrock_Cracker/");
+        button.action = () -> Blaze3D.openUri(URI.create("https://github.com/19MisterX98/Nether_Bedrock_Cracker/"));
         return l;
     }
 
